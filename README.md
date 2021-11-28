@@ -355,13 +355,13 @@ calculatorScrollView.setContentOffset(CGPoint(x: 0, y: calculatorScrollView.cont
 
 ![](https://images.velog.io/images/yim2627/post/038db035-0797-4c9a-9aca-2ec1154a0604/image.png)
 
-업데이트가 되지 않는 이유는 동적으로 생성한 스택뷰가 추가된 사이즈는 시스템에 의해서 View의 값이 재계산되어야 하는 **UpdateCycle**에 ```layoutSubView()```가 자동으로 호출되어 업데이트가 이뤄지는데, 내가 offset을 설정한 시점은 위 사진처럼 **updateCycle**이 호출되기 전(사이즈 업데이트가 되기 전)에 반영을 하고 있기때문에 이전 사이즈로 계산이 되고 있었다.
+업데이트가 되지 않는 이유는 동적으로 생성한 스택뷰가 추가된 사이즈는 시스템에 의해서 View의 값이 재계산되어야 하는 **UpdateCycle**에 ```layoutSubView()```가 자동으로 호출되어 업데이트가 이뤄지는데, 내가 offset을 설정한 시점은 위 사진처럼 **UpdateCycle**이 호출되기 전(사이즈 업데이트가 되기 전)에 반영을 하고 있기때문에 이전 사이즈로 계산이 되고 있었다.
 
 그럼 계산 전에 ```layoutSubView()```를 호출하여 사이즈를 업데이트 후 계산하면 되지않을까? 라고 생각했다.
 
 ![image](https://user-images.githubusercontent.com/70251136/143732506-36768edb-78dd-49a2-aa5d-4bd950afec16.png)
 
-하지만 애플에서는 ```layoutSubView()```를 직접적으로 호출하지 말라고 하고있는 것을 볼 수 있었다.
+하지만 애플에서는 ```layoutSubView()```를 직접적으로 호출을 금하고 있는 것을 볼 수 있었다.
 
 위 문서를 통해 ```layoutSubView()```를 즉시 호출하여 사이즈를 업데이트하는 메소드인 ```layoutIfNeeded()```를 호출하여 사이즈를 업데이트하고 계산하면 해결됨을 파악하고 메소드를 생성하였다.
 
